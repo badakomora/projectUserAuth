@@ -8,6 +8,7 @@ export const Register = () => {
     const [feedback, setFeedback] = useState("");
     const [color, setColor] = useState("");
 
+
     const Register = async(e: React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try{
@@ -32,8 +33,13 @@ export const Register = () => {
                 }
             })
         }catch(error){
-            console.log(error)
-        }
+            console.log(error,"Server not responding")
+        }  
+    }
+
+
+    const clickRegister = () => {
+       console.log(feedback)
     }
     return(
         <div className="loginWrap">
@@ -47,7 +53,8 @@ export const Register = () => {
                 <label htmlFor="password">Password </label>
                 <input type="password" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  />
             </div>
-            <button type="submit">Register</button>
+            <button type="submit" onClick={clickRegister}>Register</button>
+            <a href=".">Forget Password</a>
             </form>
         </div>
     )

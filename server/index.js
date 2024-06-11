@@ -16,8 +16,12 @@ app.get("/", cors(), (req, res) => {
   res.send("sending backend info...");
 });
 
+// app.use(cors({
+//     origin: 'https://project-user-auth-jvf4.vercel.app/'
+// }));
+
 app.use(cors({
-    origin: 'https://project-user-auth-jvf4.vercel.app/'
+    origin: 'http://localhost:3000' // Change the port if necessary
 }));
 
 app.listen(wsPort, () => {
