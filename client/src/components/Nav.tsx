@@ -27,10 +27,8 @@ export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
             <FancyLink
               href={"email"}
               name={localStorage.getItem("email")}
-              onclick={function (
-                event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-              ): void {
-                throw new Error("Function not implemented.");
+              onclick={(e) => {
+                e.preventDefault();
               }}
             />
             <FancyLink href={"logout"} onclick={LogoutUser} name={"Logout"} />
