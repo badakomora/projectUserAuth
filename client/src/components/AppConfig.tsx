@@ -1,3 +1,4 @@
+
 export const AppUrl = 'http://localhost:4000/'
 
 export const email = localStorage.getItem("email")
@@ -11,4 +12,10 @@ export interface notifications{
     setEmail:React.Dispatch<React.SetStateAction<string>>,
     password:string,
     setPassword:React.Dispatch<React.SetStateAction<string>>,
+}
+
+
+export interface appcomp{
+    loginComp:number,
+    setLoginComp:React.Dispatch<React.SetStateAction<number>>
 }
