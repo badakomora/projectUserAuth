@@ -3,7 +3,7 @@ const app = express();
 const pool = require("./dbConfig")
 const bcrypt = require("bcrypt");
 const cors = require("cors")
-const wsPort = 4000;
+const Port = 4000;
 
 
 // Middleware setup
@@ -24,8 +24,8 @@ app.use(cors({
     origin: 'http://localhost:3000' // Change the port if necessary
 }));
 
-app.listen(wsPort, () => {
-  console.log('server listening on port', wsPort);
+app.listen(Port, () => {
+  console.log('server listening on port', Port);
 });
 
 

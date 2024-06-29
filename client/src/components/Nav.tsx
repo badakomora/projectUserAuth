@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ClearUserData } from "./logout";
+import { LogoutUser } from "./logout";
+import { email } from "./AppConfig";
 
 export const Nav = () => {
-  const email = localStorage.getItem("email");
-
   if (!email) {
     return (
       <div className="nav">
@@ -51,7 +50,7 @@ export const Nav = () => {
 
     <ul className="nav-list">
       <li><Link className="m-2" to="/">{email}</Link></li>
-      <li><Link className="m-2" onClick={ClearUserData} to={""}>Logout</Link></li>
+      <li><Link className="m-2" onClick={LogoutUser} to={""}>Logout</Link></li>
     </ul>
   </div>
     );

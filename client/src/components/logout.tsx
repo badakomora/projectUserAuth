@@ -1,8 +1,6 @@
-import {useRecoilState} from "recoil"
-import {sessionemail} from "../recoil/atom";
-
-export function ClearUserData(){
-    localStorage.removeItem('email');
-    const [, logoutEmail] = useRecoilState(sessionemail);
-    logoutEmail("");
-}
+export const LogoutUser = () => {
+  localStorage.removeItem("email");
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
+};

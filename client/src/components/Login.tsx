@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React from 'react'
-import { useState} from "react"
+import React from "react"
 import axios from 'axios'
-export const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [feedback, setFeedback] = useState("")
-    const [color, setColor] = useState("");
+import { FancyInput } from './FancyInput'
+import { AppUrl, notifications } from './AppConfig'
 
-    const login = async(e: {preventDefault: () => void})=>{
+
+
+export const Login:React.FC<notifications> = ({email, setEmail, password, setPassword, color, setColor, feedback, setFeedback}) => {
+   
+    const login = async(e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try {
-            await axios.post("http://localhost:4000/signin", {email, password})
+            await axios.post(`${AppUrl}signin`, {email, password})
             .then(Response => {
                 if(Response.status === 201){
                     setFeedback(Response.data.message)
@@ -25,7 +25,6 @@ export const Login = () => {
             })
             .catch(err => {
                 if (err.response.status === 409) {
-                //   console.error(err.response.data.message);
                   setFeedback(err.response.data.message)
                   setColor("red");
                 } else {
@@ -37,19 +36,16 @@ export const Login = () => {
             console.log('Server error:', err);
         }
     }
+    
     return(
         <div className="loginWrap">
             <form onSubmit={login}>
-            <p style={{color: color}}>{feedback}</p>
-            <div className="row">
-                <label htmlFor="email">Email </label>
-                <input type="email" name="email" autoComplete="off" placeholder="email@example.com" value={email} onChange={(e)=>{setEmail(e.target.value)}} />
-            </div>
-            <div className="row">
-                <label htmlFor="password">Password </label>
-                <input type="password" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} />
-            </div>
-            <button type="submit">Login</button>
+                <p style={{color: color}}>{feedback}</p>
+                <p><b>login</b></p>
+                <FancyInput name={'Email'} type={'email'} value={email} onchange={(e) => { setEmail(e.target.value) } }/>
+                <FancyInput name={'Password'} type={'password'} value={password} onchange={(e)=>{setPassword(e.target.value)}} />
+                <button type="submit">Login</button>
+                <a href=".">Forget Password</a>
             </form>
         </div>
     )
