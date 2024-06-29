@@ -1,83 +1,74 @@
 import React from "react";
 import { LogoutUser } from "./logout";
-import { appcomp, email } from "./AppConfig";
+import { appcomp } from "./AppConfig";
+import { FancyLink } from "./FancyLink";
 
-export const Nav: React.FC<appcomp> = ({ setLoginComp }) => {
-  const tabs = (index: number) => {
-    setLoginComp(index);
+export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
+  const tabs = (index: string) => {
+    setLoginRegister(index);
   };
 
-  if (!email) {
-    return (
-      <div className="nav">
-        <input type="checkbox" id="nav-check" />
-        <div className="nav-header">
-          <div className="nav-title">
-            <img
-              src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-home-page-palm-beach-classics-8.png"
-              height={45}
-              width={45}
-              alt=""
-            />
+  return (
+    <div>
+      {localStorage.getItem("email") ? (
+        <div className="nav">
+          <div className="nav-header">
+            <div className="nav-title">
+              <img
+                src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-home-page-palm-beach-classics-8.png"
+                height={45}
+                width={45}
+                alt=""
+              />
+            </div>
           </div>
-        </div>
-        <div className="nav-btn">
-          <label htmlFor="nav-check">
-            <span></span>
-            <span></span>
-            <span></span>
-          </label>
-        </div>
 
-        <ul className="nav-list">
-          <li>
-            <a href="signin" className="m-2" onClick={() => tabs(1)}>
-              signin
-            </a>
-          </li>
-          <li>
-            <a href="signup" className="m-2" onClick={() => tabs(2)}>
-              signup
-            </a>
-          </li>
-        </ul>
-      </div>
-    );
-  } else {
-    return (
-      <div className="nav">
-        <input type="checkbox" id="nav-check" />
-        <div className="nav-header">
-          <div className="nav-title">
-            <img
-              src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-home-page-palm-beach-classics-8.png"
-              height={45}
-              width={45}
-              alt=""
+          <ul className="nav-list">
+            <FancyLink
+              href={"email"}
+              name={localStorage.getItem("email")}
+              onclick={function (
+                event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+              ): void {
+                throw new Error("Function not implemented.");
+              }}
             />
+            <FancyLink href={"logout"} onclick={LogoutUser} name={"Logout"} />
+          </ul>
+        </div>
+      ) : (
+        <div className="nav">
+          <div className="nav-header">
+            <div className="nav-title">
+              <img
+                src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-home-page-palm-beach-classics-8.png"
+                height={45}
+                width={45}
+                alt=""
+              />
+            </div>
           </div>
-        </div>
-        <div className="nav-btn">
-          <label htmlFor="nav-check">
-            <span></span>
-            <span></span>
-            <span></span>
-          </label>
-        </div>
+          <ul className="nav-list">
+            <FancyLink
+              href={"signin"}
+              onclick={(e) => {
+                e.preventDefault();
+                tabs("signin");
+              }}
+              name={"SignIn"}
+            />
 
-        <ul className="nav-list">
-          <li>
-            <a href="." className="m-2">
-              {email}
-            </a>
-          </li>
-          <li>
-            <a href="." className="m-2" onClick={LogoutUser}>
-              Logout
-            </a>
-          </li>
-        </ul>
-      </div>
-    );
-  }
+            <FancyLink
+              href={"signup"}
+              onclick={(e) => {
+                e.preventDefault();
+                tabs("signup");
+              }}
+              name={"SignUp"}
+            />
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 };

@@ -1,7 +1,6 @@
 
 export const AppUrl = 'http://localhost:4000/'
 
-export const email = localStorage.getItem("email")
 
 export interface notifications{
     color:string,
@@ -16,6 +15,8 @@ export interface notifications{
 
 
 export interface appcomp{
-    loginComp:number,
-    setLoginComp:React.Dispatch<React.SetStateAction<number>>
+    loginRegister:string,
+    setLoginRegister:React.Dispatch<React.SetStateAction<string>>
+    home:boolean,
+    setHome:React.Dispatch<React.SetStateAction<boolean>>
 }

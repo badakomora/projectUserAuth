@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Nav } from "./components/Nav";
 import { Register } from "./components/Register";
 import { Login } from "./components/Login";
-const App = () => {
+import { Home } from "./components/Home";
+export const App = () => {
+
   const [feedback, setFeedback] = useState("");
   const [color, setColor] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginComp, setLoginComp] = useState(1);
+
+  const [loginRegister, setLoginRegister] = useState("signin");
+  const [home, setHome] = useState(false);
+
+  useEffect(() => {
+    if(localStorage.getItem("email")){
+      setHome(true)
+    }
+  }, [])
 
   return (
     <div>
-      <Nav loginComp={loginComp} setLoginComp={setLoginComp} />
 
-      {loginComp === 1 ? (
+      <Nav
+        loginRegister={loginRegister}
+        setLoginRegister={setLoginRegister}
+        home={home}
+        setHome={setHome}
+      />
+
+      {home ? (
+        <Home />
+      ) : (loginRegister === "signin" ? (
         <Login
           color={color}
           setColor={setColor}
@@ -24,6 +42,10 @@ const App = () => {
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
+          loginRegister={loginRegister}
+          setLoginRegister={setLoginRegister}
+          home={home}
+          setHome={setHome}
         />
       ) : (
         <Register
@@ -36,9 +58,7 @@ const App = () => {
           password={password}
           setPassword={setPassword}
         />
-      )}
+      ))}
     </div>
   );
 };
-
-export default App;

@@ -11,7 +11,7 @@ export const Register:React.FC<notifications> = ({email, setEmail, password, set
     const Register = async(e: React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try{
-           await axios.post(`${AppUrl}signinsignup`, {email, password})
+           await axios.post(`${AppUrl}signup`, {email, password})
             .then((response: AxiosResponse<{message: string}>) => {
                 if(response.status === 201){
                     setFeedback(response.data.message)

@@ -2,11 +2,11 @@
 import React from "react"
 import axios from 'axios'
 import { FancyInput } from './FancyInput'
-import { AppUrl, notifications } from './AppConfig'
+import { AppUrl, appcomp, notifications } from './AppConfig'
 
 
 
-export const Login:React.FC<notifications> = ({email, setEmail, password, setPassword, color, setColor, feedback, setFeedback}) => {
+export const Login:React.FC<notifications & appcomp> = ({email, setEmail, password, setPassword, color, setColor, feedback, setFeedback, setHome}) => {
    
     const login = async(e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
@@ -19,7 +19,7 @@ export const Login:React.FC<notifications> = ({email, setEmail, password, setPas
                     localStorage.setItem('email', Response.data.email)
                     localStorage.setItem('id', Response.data.id)
                     setTimeout(() => {
-                        window.location.replace('/');
+                        setHome(true)
                     }, 3000);
                 }
             })
@@ -42,7 +42,7 @@ export const Login:React.FC<notifications> = ({email, setEmail, password, setPas
             <form onSubmit={login}>
                 <p style={{color: color}}>{feedback}</p>
                 <p><b>login</b></p>
-                <FancyInput name={'Email'} type={'email'} value={email} onchange={(e) => { setEmail(e.target.value) } }/>
+                <FancyInput name={'Email'} type={'email'} value={email} onchange={(e) => { e.preventDefault(); setEmail(e.target.value) } }/>
                 <FancyInput name={'Password'} type={'password'} value={password} onchange={(e)=>{setPassword(e.target.value)}} />
                 <button type="submit">Login</button>
                 <a href=".">Forget Password</a>
