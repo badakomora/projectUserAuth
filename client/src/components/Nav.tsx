@@ -4,9 +4,6 @@ import { appcomp } from "./AppConfig";
 import { FancyLink } from "./FancyLink";
 
 export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
-  const tabs = (index: string) => {
-    setLoginRegister(index);
-  };
 
   return (
     <div>
@@ -51,7 +48,7 @@ export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
               href={"signin"}
               onclick={(e) => {
                 e.preventDefault();
-                tabs("signin");
+                setLoginRegister("signin");
               }}
               name={"SignIn"}
             />
@@ -60,7 +57,7 @@ export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
               href={"signup"}
               onclick={(e) => {
                 e.preventDefault();
-                tabs("signup");
+                setLoginRegister("signup");
               }}
               name={"SignUp"}
             />

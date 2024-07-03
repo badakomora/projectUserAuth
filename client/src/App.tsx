@@ -4,8 +4,11 @@ import { Nav } from "./components/Nav";
 import { Register } from "./components/Register";
 import { Login } from "./components/Login";
 import { Home } from "./components/Home";
-export const App = () => {
+import {ForgotPassword} from "./components/ForgotPassword"
 
+
+
+export const App = () => {
   const [feedback, setFeedback] = useState("");
   const [color, setColor] = useState("");
   const [email, setEmail] = useState("");
@@ -13,16 +16,16 @@ export const App = () => {
 
   const [loginRegister, setLoginRegister] = useState("signin");
   const [home, setHome] = useState(false);
+  const [forgetPassword, setForgetPassword] = useState(false);
 
   useEffect(() => {
-    if(localStorage.getItem("email")){
-      setHome(true)
+    if (forgetPassword) {
+      setForgetPassword(true);
     }
-  }, [])
+  }, [forgetPassword]);
 
   return (
     <div>
-
       <Nav
         loginRegister={loginRegister}
         setLoginRegister={setLoginRegister}
@@ -30,35 +33,52 @@ export const App = () => {
         setHome={setHome}
       />
 
-      {home ? (
-        <Home />
-      ) : (loginRegister === "signin" ? (
-        <Login
-          color={color}
-          setColor={setColor}
-          feedback={feedback}
-          setFeedback={setFeedback}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          loginRegister={loginRegister}
-          setLoginRegister={setLoginRegister}
-          home={home}
-          setHome={setHome}
-        />
-      ) : (
-        <Register
-          color={color}
-          setColor={setColor}
-          feedback={feedback}
-          setFeedback={setFeedback}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-        />
-      ))}
+{home ? (
+  <Home />
+ ) : (forgetPassword ? (
+  <ForgotPassword color={color}
+  setColor={setColor}
+  feedback={feedback}
+  setFeedback={setFeedback}
+  email={email}
+  setEmail={setEmail}
+  password={password}
+  setPassword={setPassword}
+  loginRegister={loginRegister}
+  setLoginRegister={setLoginRegister}
+  home={home}
+  setHome={setHome}
+  forgetPassword={forgetPassword}
+  setForgetPassword={setForgetPassword} />
+ ) :( loginRegister === "signin" ? (
+  <Login
+    color={color}
+    setColor={setColor}
+    feedback={feedback}
+    setFeedback={setFeedback}
+    email={email}
+    setEmail={setEmail}
+    password={password}
+    setPassword={setPassword}
+    loginRegister={loginRegister}
+    setLoginRegister={setLoginRegister}
+    home={home}
+    setHome={setHome}
+    forgetPassword={forgetPassword}
+    setForgetPassword={setForgetPassword}
+  />
+  ) : (
+  <Register
+    color={color}
+    setColor={setColor}
+    feedback={feedback}
+    setFeedback={setFeedback}
+    email={email}
+    setEmail={setEmail}
+    password={password}
+    setPassword={setPassword}
+  />
+  )))}
     </div>
   );
 };
