@@ -16,9 +16,9 @@ export const Login:React.FC<notifications & appcomp> = ({email, setEmail, passwo
                 if(Response.status === 201){
                     setFeedback(Response.data.message)
                     setColor("green");
-                    localStorage.setItem('email', Response.data.email)
-                    localStorage.setItem('id', Response.data.id)
                     setTimeout(() => {
+                        localStorage.setItem('email', Response.data.email)
+                        localStorage.setItem('id', Response.data.id)
                         setHome(true)
                     }, 3000);
                 }
