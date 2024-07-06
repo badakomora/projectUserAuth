@@ -1,55 +1,43 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import { FancyInput } from "./FancyInput";
-import { appcomp, notifications } from "./AppConfig";
+import { FormProps, appcomp, notifications } from "./AppConfig";
 import React from "react";
+import { Form } from "./Form";
 
 
-interface forgetpasswordprops{
-    forgetPassword:boolean,
-    setForgetPassword:React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export const ForgotPassword: React.FC<forgetpasswordprops & notifications & appcomp> = ({
+export const ForgotPassword: React.FC<FormProps & notifications & appcomp> = ({
+  onsubmit,
+  formname,
   email,
   setEmail,
+  password,
+  setPassword,
   color,
+  setColor,
   feedback,
-  forgetPassword,
-  setForgetPassword
+  setFeedback,
+  setHome,
+  loginRegister,
+  setLoginRegister,
+  home,
 }) => {
 
 
 
-
-  // useEffect(() => {
-  //   if (forgetPassword) {
-  //     setForgetPassword(true);
-  //   }
-  // }, [forgetPassword, setForgetPassword]);
-
-
-  const sendOtp = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
   return (
-    <div className="loginWrap">
-      <form onSubmit={sendOtp}>
-        <p style={{ color: color }}>{feedback}</p>
-        <p>
-          <b>Forget Password</b>
-        </p>
-        <FancyInput
-          name={"Email"}
-          type={"email"}
-          value={email}
-          onchange={(e) => {
-            e.preventDefault();
-            setEmail(e.target.value);
-          }}
-        />
-        <button type="submit">Send OTP</button>
-      </form>
-    </div>
+    <Form 
+    onsubmit={onsubmit}
+    formname={formname}
+    color={color}
+    setColor={setColor}
+    feedback={feedback}
+    setFeedback={setFeedback}
+    email={email}
+    setEmail={setEmail}
+    password={password}
+    setPassword={setPassword}
+    loginRegister={loginRegister}
+    setLoginRegister={setLoginRegister}
+    home={home}
+    setHome={setHome} />
   );
 };

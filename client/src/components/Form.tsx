@@ -5,6 +5,7 @@ import { FancyLink } from "./FancyLink";
 
 export const Form: React.FC<notifications & appcomp & FormProps> = ({
   loginRegister,
+  setLoginRegister,
   formname,
   onsubmit,
   email,
@@ -13,7 +14,6 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
   setPassword,
   color,
   feedback,
-  setForgetPassword,
 }) => {
   return (
     <div className="loginWrap">
@@ -29,14 +29,18 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
             setEmail(e.target.value);
           }}
         />
-        <FancyInput
-          name={"Password"}
-          type={"password"}
-          value={password}
-          onchange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        {loginRegister === "signin" || loginRegister === "signup" ? (
+           <FancyInput
+           name={"Password"}
+           type={"password"}
+           value={password}
+           onchange={(e) => {
+             setPassword(e.target.value);
+           }}
+         />
+        ) : (
+          ""
+        )}
         <button type="submit">{formname}</button>
         {loginRegister === "signin" ? (
           <FancyLink
@@ -44,7 +48,7 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
             name={"Forget Password"}
             onclick={(e) => {
               e.preventDefault();
-              setForgetPassword(true);
+              setLoginRegister("forgotpassword");
             }}
           />
         ) : (

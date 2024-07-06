@@ -20,8 +20,6 @@ export const Login: React.FC<notifications & appcomp & FormProps> = ({
   loginRegister,
   setLoginRegister,
   home,
-  forgetPassword,
-  setForgetPassword
 }) => {
   
 
@@ -40,9 +38,7 @@ export const Login: React.FC<notifications & appcomp & FormProps> = ({
       loginRegister={loginRegister}
       setLoginRegister={setLoginRegister}
       home={home}
-      setHome={setHome}
-      forgetPassword={forgetPassword}
-      setForgetPassword={setForgetPassword} 
+      setHome={setHome} 
       />
   );
 };
