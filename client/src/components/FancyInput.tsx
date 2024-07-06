@@ -16,7 +16,7 @@ export const FancyInput: React.FC<AccountInputs> = ({
   return (
     <div className="row">
       <label>{name}</label>
-      <input type={type} value={value} onChange={onchange} />
+      <input type={type} value={value} onChange={onchange} required/>
     </div>
   );
 };
