@@ -17,3 +17,10 @@ export interface appcomp {
   home: boolean;
   setHome: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface FormProps{
+  onsubmit:React.FormEventHandler<HTMLFormElement>,
+  formname: string,
+  forgetPassword: boolean;
+  setForgetPassword: React.Dispatch<React.SetStateAction<boolean>>;
+}

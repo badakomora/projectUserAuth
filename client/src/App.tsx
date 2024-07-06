@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Nav } from "./components/Nav";
 import { Register } from "./components/Register";
 import { Login } from "./components/Login";
 import { Home } from "./components/Home";
-import {ForgotPassword} from "./components/ForgotPassword"
-
+import { ForgotPassword } from "./components/ForgotPassword";
+import axios, { AxiosResponse } from "axios";
+import { AppUrl } from "./components/AppConfig";
 
 
 export const App = () => {
@@ -18,11 +19,63 @@ export const App = () => {
   const [home, setHome] = useState(false);
   const [forgetPassword, setForgetPassword] = useState(false);
 
-  useEffect(() => {
-    if (forgetPassword) {
-      setForgetPassword(true);
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await axios
+        .post(`${AppUrl}signin`, { email, password })
+        .then((Response) => {
+          if (Response.status === 201) {
+            setFeedback(Response.data.message);
+            setColor("green");
+            setTimeout(() => {
+              localStorage.setItem("email", Response.data.email);
+              localStorage.setItem("id", Response.data.id);
+              setHome(true);
+            }, 3000);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 409) {
+            setFeedback(err.response.data.message);
+            setColor("red");
+          } else {
+            setFeedback(err.response.data.message);
+            setColor("red");
+          }
+        });
+    } catch (err) {
+      console.log("Server error:", err);
     }
-  }, [forgetPassword]);
+  };
+
+
+
+  const register = async(e: React.ChangeEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    try{
+       await axios.post(`${AppUrl}signup`, {email, password})
+        .then((response: AxiosResponse<{message: string}>) => {
+            if(response.status === 201){
+                setFeedback(response.data.message)
+                setColor("green");
+                setTimeout(() => {
+                    window.location.replace('/Signin');
+                }, 5000);
+            }
+        })
+        .catch(err => {
+            if (err.response.status === 409) {
+              setFeedback(err.response.data.message)
+              setColor("red");
+            } else {
+              console.error('Server error:', err);
+            }
+        })
+    }catch(error){
+        console.log(error,"Server not responding")
+    }  
+}
 
   return (
     <div>
@@ -33,52 +86,64 @@ export const App = () => {
         setHome={setHome}
       />
 
-{home ? (
-  <Home />
- ) : (forgetPassword ? (
-  <ForgotPassword color={color}
-  setColor={setColor}
-  feedback={feedback}
-  setFeedback={setFeedback}
-  email={email}
-  setEmail={setEmail}
-  password={password}
-  setPassword={setPassword}
-  loginRegister={loginRegister}
-  setLoginRegister={setLoginRegister}
-  home={home}
-  setHome={setHome}
-  forgetPassword={forgetPassword}
-  setForgetPassword={setForgetPassword} />
- ) :( loginRegister === "signin" ? (
-  <Login
-    color={color}
-    setColor={setColor}
-    feedback={feedback}
-    setFeedback={setFeedback}
-    email={email}
-    setEmail={setEmail}
-    password={password}
-    setPassword={setPassword}
-    loginRegister={loginRegister}
-    setLoginRegister={setLoginRegister}
-    home={home}
-    setHome={setHome}
-    forgetPassword={forgetPassword}
-    setForgetPassword={setForgetPassword}
-  />
-  ) : (
-  <Register
-    color={color}
-    setColor={setColor}
-    feedback={feedback}
-    setFeedback={setFeedback}
-    email={email}
-    setEmail={setEmail}
-    password={password}
-    setPassword={setPassword}
-  />
-  )))}
+      {home ? (
+        <Home />
+      ) : forgetPassword ? (
+        <ForgotPassword
+          color={color}
+          setColor={setColor}
+          feedback={feedback}
+          setFeedback={setFeedback}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          loginRegister={loginRegister}
+          setLoginRegister={setLoginRegister}
+          home={home}
+          setHome={setHome}
+          forgetPassword={forgetPassword}
+          setForgetPassword={setForgetPassword}
+        />
+      ) : loginRegister === "signin" ? (
+        <Login
+          color={color}
+          setColor={setColor}
+          feedback={feedback}
+          setFeedback={setFeedback}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          loginRegister={loginRegister}
+          setLoginRegister={setLoginRegister}
+          home={home}
+          setHome={setHome}
+          forgetPassword={forgetPassword}
+          setForgetPassword={setForgetPassword}
+          onsubmit={login}
+          formname={"Login"}
+        />
+      ) : (
+        <Register
+        color={color}
+        setColor={setColor}
+        feedback={feedback}
+        setFeedback={setFeedback}
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        loginRegister={loginRegister}
+        setLoginRegister={setLoginRegister}
+        home={home}
+        setHome={setHome}
+        forgetPassword={forgetPassword}
+        setForgetPassword={setForgetPassword}
+        onsubmit={register}
+        formname={"Register"}       
+        />
+      )}
     </div>
   );
 };

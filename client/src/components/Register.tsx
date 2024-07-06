@@ -1,49 +1,47 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react'
-import axios, { AxiosResponse } from 'axios'
-import { FancyInput } from './FancyInput'
-import { AppUrl, notifications } from './AppConfig'
+import {FormProps, appcomp, notifications } from './AppConfig'
+import { Form } from './Form'
 
-export const Register:React.FC<notifications> = ({email, setEmail, password, setPassword, color, setColor, feedback, setFeedback}) =>{ 
+export const Register:React.FC<notifications & appcomp & FormProps> = ({ 
+    onsubmit,
+    formname,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    color,
+    setColor,
+    feedback,
+    setFeedback,
+    setHome,
+    loginRegister,
+    setLoginRegister,
+    home,
+    forgetPassword,
+    setForgetPassword}) =>{ 
    
 
 
-    const Register = async(e: React.ChangeEvent<HTMLFormElement>)=>{
-        e.preventDefault();
-        try{
-           await axios.post(`${AppUrl}signup`, {email, password})
-            .then((response: AxiosResponse<{message: string}>) => {
-                if(response.status === 201){
-                    setFeedback(response.data.message)
-                    setColor("green");
-                    setTimeout(() => {
-                        window.location.replace('/Signin');
-                    }, 5000);
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 409) {
-                  setFeedback(err.response.data.message)
-                  setColor("red");
-                } else {
-                  console.error('Server error:', err);
-                }
-            })
-        }catch(error){
-            console.log(error,"Server not responding")
-        }  
-    }
+    
 
     
     return(
-        <div className="loginWrap">
-            <form onSubmit={Register}>
-                <p style={{color: color}}>{feedback}</p>
-                <p><b>Register</b></p>
-                <FancyInput name={'Email'} type={'email'} value={email} onchange={(e)=>{setEmail(e.target.value)}} />
-                <FancyInput name={'Password'} type={'password'} value={password} onchange={(e)=>{setPassword(e.target.value)}} />
-                <button type="submit" >Register</button>
-            </form>
-        </div>
+       <Form onsubmit={onsubmit}
+       formname={formname}
+       color={color}
+       setColor={setColor}
+       feedback={feedback}
+       setFeedback={setFeedback}
+       email={email}
+       setEmail={setEmail}
+       password={password}
+       setPassword={setPassword}
+       loginRegister={loginRegister}
+       setLoginRegister={setLoginRegister}
+       home={home}
+       setHome={setHome}
+       forgetPassword={forgetPassword}
+       setForgetPassword={setForgetPassword} />
     )
 }
