@@ -5,8 +5,8 @@ export interface notifications {
   setColor: React.Dispatch<React.SetStateAction<string>>;
   feedback: string;
   setFeedback: React.Dispatch<React.SetStateAction<string>>;
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  phone: string;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
 }

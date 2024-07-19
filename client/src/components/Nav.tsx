@@ -7,7 +7,7 @@ export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
 
   return (
     <div>
-      {localStorage.getItem("email") ? (
+      {localStorage.getItem("phone") ? (
         <div className="nav">
           <div className="nav-header">
             <div className="nav-title">
@@ -22,8 +22,8 @@ export const Nav: React.FC<appcomp> = ({ setLoginRegister }) => {
 
           <ul className="nav-list">
             <FancyLink
-              href={"email"}
-              name={localStorage.getItem("email")}
+              href={"phone"}
+              name={localStorage.getItem("phone")}
               onclick={(e) => {
                 e.preventDefault();
               }}

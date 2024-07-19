@@ -1,5 +1,5 @@
 export const LogoutUser = () => {
-  localStorage.removeItem("email");
+  localStorage.removeItem("phone");
   setTimeout(() => {
     window.location.reload();
   }, 1000);

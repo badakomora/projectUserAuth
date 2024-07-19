@@ -7,11 +7,12 @@ import { Home } from "./components/Home";
 import { ForgotPassword } from "./components/ForgotPassword";
 import axios, { AxiosResponse } from "axios";
 import { AppUrl } from "./components/AppConfig";
+import africastalking from 'africastalking'
 
 export const App = () => {
   const [feedback, setFeedback] = useState("");
   const [color, setColor] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const [loginRegister, setLoginRegister] = useState("signin");
@@ -21,13 +22,13 @@ export const App = () => {
     e.preventDefault();
     try {
       await axios
-        .post(`${AppUrl}signin`, { email, password })
+        .post(`${AppUrl}signin`, { phone, password })
         .then((Response) => {
           if (Response.status === 201) {
             setFeedback(Response.data.message);
             setColor("green");
             setTimeout(() => {
-              localStorage.setItem("email", Response.data.email);
+              localStorage.setItem("phone", Response.data.phone);
               localStorage.setItem("id", Response.data.id);
               setHome(true);
             }, 3000);
@@ -51,7 +52,7 @@ export const App = () => {
     e.preventDefault();
     try {
       await axios
-        .post(`${AppUrl}signup`, { email, password })
+        .post(`${AppUrl}signup`, { phone, password })
         .then((response: AxiosResponse<{ message: string }>) => {
           if (response.status === 201) {
             setFeedback(response.data.message);
@@ -76,6 +77,19 @@ export const App = () => {
 
   const sendOtp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const client = africastalking({
+        username:"sandbox",
+        apiKey:"atsk_28d65e015ae94581569d9639d242d1c8544d95ad8f7d3f2370c051dcfa83c603b00d3192"
+      }
+    )
+
+    client.SMS.send({
+        to:"+254759621394",
+      message:"Hello",
+      from:"Bada"
+    })
+    .then(()=>console.log("Message sent!"))
+    .catch(err => console.log(err))
   };
 
   return (
@@ -95,8 +109,8 @@ export const App = () => {
           setColor={setColor}
           feedback={feedback}
           setFeedback={setFeedback}
-          email={email}
-          setEmail={setEmail}
+          phone={phone}
+          setPhone={setPhone}
           password={password}
           setPassword={setPassword}
           loginRegister={loginRegister}
@@ -112,8 +126,8 @@ export const App = () => {
           setColor={setColor}
           feedback={feedback}
           setFeedback={setFeedback}
-          email={email}
-          setEmail={setEmail}
+          phone={phone}
+          setPhone={setPhone}
           password={password}
           setPassword={setPassword}
           loginRegister={loginRegister}
@@ -129,8 +143,8 @@ export const App = () => {
           setColor={setColor}
           feedback={feedback}
           setFeedback={setFeedback}
-          email={email}
-          setEmail={setEmail}
+          phone={phone}
+          setPhone={setPhone}
           password={password}
           setPassword={setPassword}
           loginRegister={loginRegister}
@@ -140,7 +154,9 @@ export const App = () => {
           onsubmit={sendOtp}
           formname={"Forgot Password"}
         />
-      ) : null}
+      ) : (
+        ""
+      )}
     </div>
   );
 };

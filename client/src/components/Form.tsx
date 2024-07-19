@@ -8,8 +8,8 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
   setLoginRegister,
   formname,
   onsubmit,
-  email,
-  setEmail,
+  phone,
+  setPhone,
   password,
   setPassword,
   color,
@@ -21,23 +21,23 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
         <span style={{ color: color }}>{feedback}</span>
         <b>{formname}</b>
         <FancyInput
-          name={"Email"}
-          type={"email"}
-          value={email}
+          name={"phone"}
+          type={"phone"}
+          value={phone}
           onchange={(e) => {
             e.preventDefault();
-            setEmail(e.target.value);
+            setPhone(e.target.value);
           }}
         />
         {loginRegister === "signin" || loginRegister === "signup" ? (
-           <FancyInput
-           name={"Password"}
-           type={"password"}
-           value={password}
-           onchange={(e) => {
-             setPassword(e.target.value);
-           }}
-         />
+          <FancyInput
+            name={"Password"}
+            type={"password"}
+            value={password}
+            onchange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         ) : (
           ""
         )}

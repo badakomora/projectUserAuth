@@ -7,8 +7,8 @@ import { Form } from "./Form";
 export const ForgotPassword: React.FC<FormProps & notifications & appcomp> = ({
   onsubmit,
   formname,
-  email,
-  setEmail,
+  phone,
+  setPhone,
   password,
   setPassword,
   color,
@@ -31,8 +31,8 @@ export const ForgotPassword: React.FC<FormProps & notifications & appcomp> = ({
     setColor={setColor}
     feedback={feedback}
     setFeedback={setFeedback}
-    email={email}
-    setEmail={setEmail}
+    phone={phone}
+    setPhone={setPhone}
     password={password}
     setPassword={setPassword}
     loginRegister={loginRegister}

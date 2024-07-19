@@ -8,8 +8,8 @@ import { Form } from "./Form";
 export const Login: React.FC<notifications & appcomp & FormProps> = ({
   onsubmit,
   formname,
-  email,
-  setEmail,
+  phone,
+  setPhone,
   password,
   setPassword,
   color,
@@ -31,8 +31,8 @@ export const Login: React.FC<notifications & appcomp & FormProps> = ({
       setColor={setColor}
       feedback={feedback}
       setFeedback={setFeedback}
-      email={email}
-      setEmail={setEmail}
+      phone={phone}
+      setPhone={setPhone}
       password={password}
       setPassword={setPassword}
       loginRegister={loginRegister}
