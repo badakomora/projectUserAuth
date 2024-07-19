@@ -4,7 +4,7 @@ const pool = require("./dbConfig")
 const bcrypt = require("bcrypt");
 const cors = require("cors")
 const Port = 4000;
-
+const africastalking = require('africastalking'); // Corrected import
 
 // Middleware setup
 app.use(express.json());
@@ -23,7 +23,10 @@ app.get("/", cors(), (req, res) => {
 app.use(cors({
     origin: 'http://localhost:3000' // Change the port if necessary
 }));
-
+const smsClient = africastalking({
+    username: "sandbox",
+    apiKey: "atsk_45e7c6d22f89931da8399b0d01654f9e6332b92ff5f1a9bc5e76230d2b67a20f40d7a8c3",
+});
 app.listen(Port, () => {
   console.log('server listening on port', Port);
 });
@@ -75,17 +78,31 @@ app.post("/signup", async (req, res) => {
 
 
 
-// forget user password
-// app.post("/forgetpassword", async (req, res) => {
-//     try {
-//         const { phone } = req.body;
-//         const getuser = await pool.query("SELECT * FROM users WHERE phone = $1", [phone]);
-//         if (getuser.rows.length > 0) {
-//           res.status(201).json({ message: 'Password reset attempt successful! An otp has been sent to', phone });    
-//         } else {
-//             res.status(404).json({ message: 'Password reset attempt unsuccessful! This user does not exist!' });
-//         }
-//     } catch (err) {
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// });
+
+
+app.post("/forgotpassword", async (req, res) => {
+    try {
+        const { phone } = req.body;
+        const getuser = await pool.query("SELECT * FROM users WHERE phone = $1", [phone]);
+
+        if (getuser.rows.length > 0) {
+            res.status(201).json({ message: 'Password reset attempt successful! An OTP has been sent to', phone });
+
+        const options = {
+            to: [phone],
+            message: "I'm a lumberjack and its ok, I work all night and sleep all day"
+        }
+        smsClient.send(options)
+        .then( response => {
+            console.log(response);
+        })
+        .catch( error => {
+            console.log(error);
+        });
+        } else {
+            res.status(404).json({ message: 'Password reset attempt unsuccessful! This user does not exist!' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
