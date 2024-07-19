@@ -7,7 +7,7 @@ import { Home } from "./components/Home";
 import { ForgotPassword } from "./components/ForgotPassword";
 import axios, { AxiosResponse } from "axios";
 import { AppUrl } from "./components/AppConfig";
-import africastalking from 'africastalking'
+// import africastalking from 'africastalking'
 
 export const App = () => {
   const [feedback, setFeedback] = useState("");
@@ -77,19 +77,19 @@ export const App = () => {
 
   const sendOtp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const client = africastalking({
-        username:"sandbox",
-        apiKey:"atsk_28d65e015ae94581569d9639d242d1c8544d95ad8f7d3f2370c051dcfa83c603b00d3192"
-      }
-    )
+    // const client = africastalking({
+    //     username:"sandbox",
+    //     apiKey:"atsk_28d65e015ae94581569d9639d242d1c8544d95ad8f7d3f2370c051dcfa83c603b00d3192"
+    //   }
+    // )
 
-    client.SMS.send({
-        to:"+254759621394",
-      message:"Hello",
-      from:"Bada"
-    })
-    .then(()=>console.log("Message sent!"))
-    .catch(err => console.log(err))
+    // client.SMS.send({
+    //     to:"+254759621394",
+    //   message:"Hello",
+    //   from:"Bada"
+    // })
+    // .then(()=>console.log("Message sent!"))
+    // .catch(err => console.log(err))
   };
 
   return (
