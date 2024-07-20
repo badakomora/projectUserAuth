@@ -74,34 +74,39 @@ app.post("/signup", async (req, res) => {
 });
 
 
-const otpStore = new Map()
+
 //forgot password
 app.post("/forgotpassword", async (req, res) => {
     try {
         const { phone } = req.body;
         const getuser = await pool.query("SELECT * FROM users WHERE phone = $1", [phone]);
-        console.log(phone);
 
         if (getuser.rows.length > 0) {
-            res.status(201).json({ message: 'Password reset request successful! Use the OTP sent to your number to request a new password.' }); 
+            const otp = Math.floor(100000 + Math.random() * 900000);
+            const salt = await bcrypt.hash(otp.toString(), 10); // Hash the OTP after converting it to a string
+            
+            const newphone = String(phone);
+            await pool.query("UPDATE users SET otp = $1 WHERE phone = $2", [salt, phone]);
+
+            // Send success response
+            res.status(201).json({ message: 'Password reset request successful! Use the OTP sent to your number to request a new password.' });
+
+            // Initialize SMS service
             const sms = AfricasTalking.SMS;
-            const newphone = String(phone)
-            // Generate and store OTP
-            const userOTP = Math.floor(100000 + Math.random() * 900000);
-            otpStore.set(phone, { otp: userOTP, expires: Date.now() + 15 * 60 * 1000 }); // Expires in 15 minutes
             const options = {
                 to: [newphone],
-                message: `Password reset request was successful. Please use the following OTP to set a new password: ${userOTP}.`
+                message: `Password reset request was successful. Please use the following OTP to set a new password: ${otp}.`
             };
-            
+
             // Send message
             sms.send(options)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.error('SMS sending error:', error);
-            });
+                .then(response => {
+                    console.log('SMS sent successfully:', response);
+                })
+                .catch(error => {
+                    console.error('SMS sending error:', error);
+                });
+
         } else {
             res.status(404).json({ message: 'Password reset attempt unsuccessful! This user does not exist!' });
         }
@@ -112,25 +117,35 @@ app.post("/forgotpassword", async (req, res) => {
 });
 
 
-// newpassword
+
+// Register user
 app.post("/newpassword", async (req, res) => {
     try {
         const { phone, otp, password } = req.body;
-        const storedData = otpStore.get(phone); // Retrieve the OTP for the specific phone number
+        const getuser = await pool.query("SELECT * FROM users WHERE phone = $1", [phone]);
 
-        if (storedData && storedData.otp === otp && Date.now() < storedData.expires) {
-            const salt = await bcrypt.hash(password, 10);
-            await pool.query("UPDATE users SET password = $1 WHERE phone = $2", [salt, phone]);
+        if (getuser.rows.length > 0) {
+            const saltOtp = getuser.rows[0].otp;
 
-            // Invalidate the OTP
-            otpStore.delete(phone);
+            // Compare the provided OTP with the stored hashed OTP
+            const isOtpValid = await bcrypt.compare(otp, saltOtp);
 
-            res.status(200).json({ message: 'Password reset request successful! You can now sign in with the new password.' });
+            if (isOtpValid) {
+                // Hash the new password
+                const saltPassword = await bcrypt.hash(password, 10);
+
+                // Update the user's password and clear the OTP
+                await pool.query("UPDATE users SET password = $1, otp = NULL WHERE phone = $2", [saltPassword, phone]);
+
+                res.status(200).json({ message: 'Password reset successful! You can now sign in with the new password.' });
+            } else {
+                res.status(409).json({ message: 'Invalid OTP!' });
+            }
         } else {
-            res.status(400).json({ message: 'Invalid or expired OTP! Please provide the correct OTP sent to your phone.' });
+            res.status(404).json({ message: 'User not found!' });
         }
     } catch (err) {
-        console.error('Server error:', err); // Log the error for debugging
+        console.error('Server error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 });
