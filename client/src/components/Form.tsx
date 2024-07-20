@@ -31,6 +31,7 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
             setPhone(e.target.value);
           }}
           disabled={loginRegister === "newpassword" ? true : false}
+          placeholder={"E.g +254712345678"}
         />
         {loginRegister === "newpassword" ? (
           <FancyInput
@@ -42,6 +43,7 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
               setOtp(e.target.value);
             }}
             disabled={false}
+            placeholder={"Enter OTP"}
           />
         ) : (
           ""
@@ -61,6 +63,11 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
               setPassword(e.target.value);
             }}
             disabled={false}
+            placeholder={
+              loginRegister === "signin" || loginRegister === "signup"
+                ? "Password"
+                : "Enter New Passsword"
+            }
           />
         ) : (
           ""

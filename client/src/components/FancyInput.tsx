@@ -4,6 +4,7 @@ interface AccountInputs {
   name: string;
   type: string;
   value: string;
+  placeholder: string;
   disabled: boolean;
   onchange: React.ChangeEventHandler<HTMLInputElement>;
 }
@@ -12,6 +13,7 @@ export const FancyInput: React.FC<AccountInputs> = ({
   name,
   type,
   value,
+  placeholder,
   disabled,
   onchange,
 }) => {
@@ -21,6 +23,7 @@ export const FancyInput: React.FC<AccountInputs> = ({
       <input
         type={type}
         value={value}
+        placeholder={placeholder}
         disabled={disabled}
         onChange={onchange}
         required
