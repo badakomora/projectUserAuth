@@ -63,8 +63,9 @@ app.post("/signup", async (req, res) => {
         if (posteduser.rows.length > 0) {
             res.status(409).json({ message: 'phone already exists' });
         } else {
+            const otp = "0"
             const salt = await bcrypt.hash(password, 10);
-            await pool.query("INSERT INTO users(phone, password) Values($1, $2)", [phone, salt]);
+            await pool.query("INSERT INTO users(phone, password, otp) Values($1, $2, $3)", [phone, salt, otp]);
             res.status(201).json({ message: 'Registration Successful! Redirecting to login...' });
         }
 
