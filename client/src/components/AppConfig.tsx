@@ -9,6 +9,8 @@ export interface notifications {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  otp:string,
+  setOtp:React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface appcomp {

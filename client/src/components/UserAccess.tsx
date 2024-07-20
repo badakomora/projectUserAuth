@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
-import {appcomp, notifications, FormProps } from "./AppConfig";
 import { Form } from "./Form";
+import { notifications, appcomp, FormProps } from "./AppConfig";
 
-
-
-export const Login: React.FC<notifications & appcomp & FormProps> = ({
+export const UserAccesss: React.FC<notifications & appcomp & FormProps> = ({
   onsubmit,
   formname,
   phone,
   setPhone,
   password,
   setPassword,
+  otp,
+  setOtp,
   color,
   setColor,
   feedback,
@@ -21,8 +21,6 @@ export const Login: React.FC<notifications & appcomp & FormProps> = ({
   setLoginRegister,
   home,
 }) => {
-  
-
   return (
     <Form
       onsubmit={onsubmit}
@@ -38,7 +36,9 @@ export const Login: React.FC<notifications & appcomp & FormProps> = ({
       loginRegister={loginRegister}
       setLoginRegister={setLoginRegister}
       home={home}
-      setHome={setHome} 
-      />
+      setHome={setHome}
+      otp={otp}
+      setOtp={setOtp}
+    />
   );
 };

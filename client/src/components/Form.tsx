@@ -12,6 +12,8 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
   setPhone,
   password,
   setPassword,
+  otp,
+  setOtp,
   color,
   feedback,
 }) => {
@@ -19,24 +21,46 @@ export const Form: React.FC<notifications & appcomp & FormProps> = ({
     <div className="loginWrap">
       <form onSubmit={onsubmit}>
         <span style={{ color: color }}>{feedback}</span>
-        <b>{formname}</b>
+        <h4>{formname}</h4>
         <FancyInput
-          name={"phone"}
-          type={"phone"}
+          name={"Phone"}
+          type={"tel"}
           value={phone}
           onchange={(e) => {
             e.preventDefault();
             setPhone(e.target.value);
           }}
+          disabled={loginRegister === "newpassword" ? true : false}
         />
-        {loginRegister === "signin" || loginRegister === "signup" ? (
+        {loginRegister === "newpassword" ? (
           <FancyInput
-            name={"Password"}
+            name={"Enter OTP"}
+            type={"number"}
+            value={otp}
+            onchange={(e) => {
+              e.preventDefault();
+              setOtp(e.target.value);
+            }}
+            disabled={false}
+          />
+        ) : (
+          ""
+        )}
+        {loginRegister === "signin" ||
+        loginRegister === "signup" ||
+        loginRegister === "newpassword" ? (
+          <FancyInput
+            name={
+              loginRegister === "signin" || loginRegister === "signup"
+                ? "Password"
+                : "Enter New Passsword"
+            }
             type={"password"}
             value={password}
             onchange={(e) => {
               setPassword(e.target.value);
             }}
+            disabled={false}
           />
         ) : (
           ""
