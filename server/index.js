@@ -6,7 +6,7 @@ const cors = require("cors")
 const Port = 4000;
 const AfricasTalking = require('africastalking')({
     username: "sandbox",
-    apiKey: "atsk_45e7c6d22f89931da8399b0d01654f9e6332b92ff5f1a9bc5e76230d2b67a20f40d7a8c3",
+    apiKey: "atsk_3668e862ececad95732a11841ef9e40ae62f71f548d0628af805d19f74bde64acf498025",
 });
 
 // Middleware setup
